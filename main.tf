@@ -18,9 +18,11 @@ resource "github_branch" "landing_branch" {
 module "upload_constant_files" {
     source = "./submodules/file_handler"
     files_to_upload = local.constant_files
+    depends_on = [ github_repository.repo ]
 }
 
 module "upload_repo_files" {
     source = "./submodules/file_handler"
     files_to_upload = local.repo_files
+    depends_on = [ github_repository.repo ]
 }
