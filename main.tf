@@ -13,18 +13,19 @@ resource "github_branch" "landing_branch" {
   for_each    = var.repos
   repository = github_repository.repo[each.key].name
   branch = var.landing_branch_name
+  depends_on = [ github_repository.repo ]
 }
 
 module "upload_constant_files" {
     source = "./submodules/file_handler"
     files_to_upload = local.constant_files
     landing_branch_name = var.landing_branch_name
-    depends_on = [ github_repository.repo ]
+    depends_on = [ github_repository.repo, github_branch.landing_branch ]
 }
 
 module "upload_repo_files" {
     source = "./submodules/file_handler"
     files_to_upload = local.repo_files
     landing_branch_name = var.landing_branch_name
-    depends_on = [ github_repository.repo ]
+    depends_on = [ github_repository.repo, github_branch.landing_branch]
 }
