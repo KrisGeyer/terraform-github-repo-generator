@@ -32,6 +32,11 @@ variable "repo_files" {
     )
 }
 
+variable "landing_branch_name" {
+  type = string
+  default = "landing"
+}
+
 variable "github_token" {
   sensitive = true
   type = string
