@@ -6,4 +6,5 @@ resource "github_repository_file" "files" {
   branch =  "landing"
   content = file(each.value.local_path)
   file = each.value.git_path
+  overwrite_on_create = each.value.overwrite_on_create
 }

@@ -28,6 +28,7 @@ variable "repo_files" {
                 repo_name = string
                 git_path = string
                 local_path = string
+                overwrite_on_create = bool
             }
         )
     )
