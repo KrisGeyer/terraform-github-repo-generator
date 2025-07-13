@@ -18,6 +18,7 @@ variable "constant_files" {
             }
         )
     )
+    default = []
 }
 
 variable "repo_files" {
@@ -30,6 +31,7 @@ variable "repo_files" {
             }
         )
     )
+    default = []
 }
 
 variable "landing_branch_name" {
