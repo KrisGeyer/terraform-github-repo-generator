@@ -3,7 +3,7 @@ resource "github_repository" "repo" {
   name        = each.key
   description = each.value.description
   visibility  = each.value.visibility
-  auto_init              = false
+  auto_init              = true
   delete_branch_on_merge = true
   has_issues             = true
   has_wiki               = false
