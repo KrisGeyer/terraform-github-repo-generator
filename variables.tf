@@ -15,6 +15,7 @@ variable "constant_files" {
             {
                 git_path = string
                 local_path = string
+                overwrite_on_create = bool
             }
         )
     )
