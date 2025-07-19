@@ -13,4 +13,5 @@ variable files_to_upload {
 
 variable "landing_branch_name" {
     type = string
+    default = "landing"
 }
