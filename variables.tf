@@ -1,52 +1,52 @@
 variable "repos" {
-    type = map(
-        object(
-            {
-                description = string
-                visibility = string
-            }
-        )
+  type = map(
+    object(
+      {
+        description = string
+        visibility  = string
+      }
     )
+  )
 }
 
 variable "constant_files" {
-    type = list(
-        object(
-            {
-                git_path = string
-                local_path = string
-                overwrite_on_create = bool
-            }
-        )
+  type = list(
+    object(
+      {
+        git_path            = string
+        local_path          = string
+        overwrite_on_create = bool
+      }
     )
-    default = []
+  )
+  default = []
 }
 
 variable "repo_files" {
-    type = list(
-        object(
-            {
-                repo_name = string
-                git_path = string
-                local_path = string
-                overwrite_on_create = bool
-            }
-        )
+  type = list(
+    object(
+      {
+        repo_name           = string
+        git_path            = string
+        local_path          = string
+        overwrite_on_create = bool
+      }
     )
-    default = []
+  )
+  default = []
 }
 
 variable "landing_branch_name" {
-  type = string
+  type    = string
   default = "landing"
 }
 
 variable "github_token" {
   sensitive = true
-  type = string
+  type      = string
 }
 
 variable "github_owner" {
   sensitive = true
-  type = string
+  type      = string
 }

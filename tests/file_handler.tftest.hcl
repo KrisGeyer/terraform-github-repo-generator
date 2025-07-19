@@ -5,7 +5,7 @@ provider "github" {
 
 run "add_repo" {
     module {
-        source = "../"
+        source = "./submodules/file_handler"
     }
     command = plan
 
@@ -13,8 +13,9 @@ run "add_repo" {
         files_to_upload = [
             {
                 git_path = "a_git_path"
-                local_path = "../../../repositories/hello.txt"
+                local_path = "./tests/repositories/hello.txt"
                 repo_name = "to_add"
+                overwrite_on_create = true
             }
         ]
     }
@@ -27,7 +28,8 @@ run "add_repo" {
                     outer_file.file
                 )
             ]
-        , "a_git_path")
+        , "a_git_path"
+        )
         error_message = "Failed to generate the files."
     }
 
