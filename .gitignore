@@ -1,1 +1,6 @@
 **.terraform**
+**.ps1
+terragrunt.hcl
+.terragrunt-cache
+json
+hello.txt

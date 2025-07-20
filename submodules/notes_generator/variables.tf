@@ -1,40 +1,3 @@
-variable "repos" {
-  type = map(
-    object(
-      {
-        description = string
-        visibility  = string
-      }
-    )
-  )
-}
-
-variable "repo_name" {
-  type = string
-}
-
-variable "repo_files" {
-  type = list(
-    object(
-      {
-        git_path            = string
-        local_path          = string
-        overwrite_on_create = bool
-      }
-    )
-  )
-  default = []
-}
-
-variable "landing_branch_name" {
-  type    = string
-  default = "landing"
-}
-
-variable "notes_root_folder" {
-  type = string
-}
-
 variable "file_map" {
   type = map(
     map(
@@ -62,12 +25,15 @@ variable "file_map" {
         }
     EOT
 }
-
-
-variable "repo_description" {
+variable "repo_name" {
   type = string
 }
 
-variable "visibility" {
+variable "landing_branch_name" {
     type = string
+    default = "landing"
+}
+
+variable "notes_root_folder" {
+  type    = string
 }
