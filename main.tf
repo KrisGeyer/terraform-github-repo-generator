@@ -1,8 +1,7 @@
 resource "github_repository" "repo" {
-  for_each               = var.repos
-  name                   = each.key
-  description            = each.value.description
-  visibility             = each.value.visibility
+  name                   = var.repo_name
+  description            = var.repo_description
+  visibility             = var.visibility
   auto_init              = true
   delete_branch_on_merge = true
   has_issues             = true
@@ -10,22 +9,24 @@ resource "github_repository" "repo" {
 }
 
 resource "github_branch" "landing_branch" {
-  for_each   = var.repos
-  repository = github_repository.repo[each.key].name
+  repository = github_repository.repo.name
   branch     = var.landing_branch_name
   depends_on = [github_repository.repo]
 }
 
-module "upload_constant_files" {
+module "upload_repo_files" {
   source              = "./submodules/file_handler"
-  files_to_upload     = local.constant_files
+  repo_name = github_repository.repo.name
+  files_to_upload     = local.repo_files
   landing_branch_name = var.landing_branch_name
   depends_on          = [github_repository.repo, github_branch.landing_branch]
 }
 
-module "upload_repo_files" {
-  source              = "./submodules/file_handler"
-  files_to_upload     = local.repo_files
+module "generate_notes_pages" {
+  source              = "./submodules/notes_generator"
+  repo_name = var.repo_name
+  notes_root_folder = var.notes_root_folder
+  file_map     = var.file_map
   landing_branch_name = var.landing_branch_name
   depends_on          = [github_repository.repo, github_branch.landing_branch]
 }
