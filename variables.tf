@@ -1,3 +1,14 @@
+variable "repos" {
+  type = map(
+    object(
+      {
+        description = string
+        visibility  = string
+      }
+    )
+  )
+}
+
 variable "repo_name" {
   type = string
 }
