@@ -11,76 +11,61 @@ run "add_repo" {
     command = plan
 
     variables {
-        repos = {
-            "to_add" : {
-                description = "a description"
-                visibility = "private"
+        repo_name = "to_add"
+        repo_description = "a description"
+        visibility = "private"
+        notes_root_folder = "notes_root_folder"
+
+        notes_file_map = {
+            "notes_1":{
+                "notes_2": {
+                    "links": {
+                        "notes_3": {
+                        "link": "https://a_link"
+                        "type": "tutorial"
+                        }
+                    }
+                }
             }
         }
-        constant_files = [
-            {
-                git_path = "a_git_path"
-                local_path = "./tests/repositories/hello.txt"   
-                overwrite_on_create = false
-            }
-        ]
         repo_files = [
             {
                 git_path = "a_git_path_copy"
                 local_path = "./tests/repositories/hello.txt"
-                repo_name = "to_add"
                 overwrite_on_create = false
             },
             {
                 git_path = "another_git_path"
                 local_path = "./tests/repositories/hello.txt"
-                repo_name = "to_add"
-                overwrite_on_create = false
-            },
-            {
-                git_path = "yet_another_git_path"
-                local_path = "./tests/repositories/hello.txt"
-                repo_name = "not_to_add"
                 overwrite_on_create = false
             }
         ]
     }
 
     assert {
-        condition = contains(
-            [
-                for repo in github_repository.repo : (
-                    "${repo.name}_${repo.visibility}"
-                )
-            ]
-        , "to_add_private")
+        condition = github_repository.repo.name == "to_add"
         error_message = "Expected to_add as a repo name."
     }
 
     assert {
-        condition = contains(
-            [
-                for file in module.upload_constant_files.file_uploaded : (
-                    "${file.repo_name}_${file.local_path}_${file.git_path}"
-                )
-            ]
-        , "to_add_./tests/repositories/hello.txt_a_git_path")
-        error_message = "Failed to generate the constant_files variables."
+        condition = github_repository.repo.visibility == "private"
+        error_message = "Expected visibility as private."
     }
+
 
     assert {
         condition = contains(
             [
-                for file in module.upload_repo_files.file_uploaded : (
-                    "${file.repo_name}_${file.local_path}_${file.git_path}"
+                for file in github_repository_file.upload_repo_files : (
+                    "${file.file}"
                 )
             ]
-        , "to_add_./tests/repositories/hello.txt_another_git_path")
+        , "another_git_path")
       error_message = "expected to see a file for the repository which is "
     }
 
     assert {
-        condition = module.upload_repo_files.number_files_uploaded == 2
+        condition = length(github_repository_file.upload_repo_files) == 2
         error_message = "expected to see a file appropriate filtering across the repos. Only 1 file should be uploaded"
     }
 }

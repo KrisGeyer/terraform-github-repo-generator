@@ -1,29 +1,13 @@
-variable "repos" {
-  type = map(
-    object(
-      {
-        description = string
-        visibility  = string
-      }
-    )
-  )
-}
-
 variable "repo_name" {
   type = string
 }
 
-variable "repo_files" {
-  type = list(
-    object(
-      {
-        git_path            = string
-        local_path          = string
-        overwrite_on_create = bool
-      }
-    )
-  )
-  default = []
+variable "repo_description" {
+  type = string
+}
+
+variable "visibility" {
+    type = string
 }
 
 variable "landing_branch_name" {
@@ -35,7 +19,7 @@ variable "notes_root_folder" {
   type = string
 }
 
-variable "file_map" {
+variable "notes_file_map" {
   type = map(
     map(
       object({
@@ -64,10 +48,16 @@ variable "file_map" {
 }
 
 
-variable "repo_description" {
-  type = string
-}
-
-variable "visibility" {
-    type = string
+variable "repo_files" {
+  type = list(
+    object(
+      {
+        git_path            = string
+        local_path          = string
+        overwrite_on_create = bool
+      }
+    )
+  )
+  default = []
+  description = "Generally not employed, only to add a specific file on a specific repo but unlikely used."
 }
